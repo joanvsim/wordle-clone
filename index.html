@@ -1,0 +1,220 @@
+<title>WORDLE - Joanvsim</title>
+<style>
+    :root {
+        color-scheme: light dark;
+        --orange: #ffa509;
+        --green: #00b755;
+        --black: #222;
+        --gray: #b3b3b3;
+        --white: #e4e4e4;
+    }
+
+    body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: var(--black);
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        font-size: 16px;
+    }
+
+    .title {
+        display: flex;
+        justify-content: center;
+    }
+
+    .inputGroup {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        
+    }
+
+    #wordInput {
+        width: 70%;
+        height: 30px;
+        letter-spacing: 0.5px;
+    }
+
+    #submitInput {
+        background-color: var(--green);
+        border: 0;
+        border-radius: 3px;
+        transition: background-color 0.3s ease;
+    }
+
+    #submitInput:hover {
+        background-color: #008c44;
+    }
+
+    .game {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 17px;
+    }
+
+    .grid-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 7px;
+    
+    }
+    
+    .grid-item {
+      background-color: var(--white);
+      width: 35px;
+      height: 35px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--black);
+      font-weight: 700;
+      font-size: 1.3em;
+    }
+
+    .green {
+        background-color: var(--green);
+    }
+
+    .winner {
+        color: var(--green);
+        background-color: #161616;
+        position: absolute;
+        width: 300px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* Aquí se define la sombra */
+        top: 480px;
+        font-size: 1.3em;
+    }
+
+    .displayed {
+        display: none;
+    } 
+
+</style>
+
+<body>
+    <main>
+        <section class="title">
+            <h1>WORDLE - CAT</h1>
+        </section>
+        <section class="game">
+            
+            <div class="grid-container row-1">
+                <div class="grid-item item-1"></div>
+                <div class="grid-item item-2"></div>
+                <div class="grid-item item-3"></div>
+                <div class="grid-item item-4"></div>
+                <div class="grid-item item-5"></div>
+            </div>
+            <div class="grid-container row-2">
+                <div class="grid-item item-1"></div>
+                <div class="grid-item item-2"></div>
+                <div class="grid-item item-3"></div>
+                <div class="grid-item item-4"></div>
+                <div class="grid-item item-5"></div>
+            </div>
+            <div class="grid-container row-3">
+                <div class="grid-item item-1"></div>
+                <div class="grid-item item-2"></div>
+                <div class="grid-item item-3"></div>
+                <div class="grid-item item-4"></div>
+                <div class="grid-item item-5"></div>
+            </div>
+            <div class="grid-container row-4">
+                <div class="grid-item item-1"></div>
+                <div class="grid-item item-2"></div>
+                <div class="grid-item item-3"></div>
+                <div class="grid-item item-4"></div>
+                <div class="grid-item item-5"></div>
+            </div>
+            <div class="grid-container row-5">
+                <div class="grid-item item-1"></div>
+                <div class="grid-item item-2"></div>
+                <div class="grid-item item-3"></div>
+                <div class="grid-item item-4"></div>
+                <div class="grid-item item-5"></div>
+            </div>
+            <div class="grid-container row-6">
+                <div class="grid-item item-1"></div>
+                <div class="grid-item item-2"></div>
+                <div class="grid-item item-3"></div>
+                <div class="grid-item item-4"></div>
+                <div class="grid-item item-5"></div>
+            </div>
+
+            <label class="inputGroup">
+                <input id="wordInput" autofocus placeholder="Escriu la paraula..." maxlength="5" autocomplete="off">
+                <button id="submitInput">Send</button>
+            </label>
+        </section>
+    </main>
+    <div class="winner displayed">
+        <h3>HAS GUANYAT!</h3>
+    </div>
+</body>
+
+<script>
+    const $wordInput = document.getElementById('wordInput');
+    const $submitInput = document.getElementById('submitInput');
+    const $gridItems = document.querySelectorAll('.grid-item');
+    const $winner = document.querySelector('.winner');
+
+    const WORDLENGTH = 5;
+
+    const GREEN = '#00b755';
+    const ORANGE = '#ffa509';
+    const GRAY = '#000';
+
+    let localState = 0;
+
+    const WORD = 'SALSA';
+
+    $wordInput.addEventListener('input', () => {
+        const inputWord = $wordInput.value.toUpperCase();
+        for (let i = 0; i < 5; i++) {
+            temp = i + 5*localState;
+            $gridItems[temp].textContent = inputWord[i];
+        }
+    });
+
+    $submitInput.addEventListener('click', () => {
+        if ($wordInput.value.length === WORDLENGTH) {
+
+            let localWord = $wordInput.value.toUpperCase();
+            
+            for (let i = 0; i < WORDLENGTH; i++) {
+                temp = i + 5*localState;
+                if (localWord[i] == WORD[i]) {
+                    $gridItems[temp].style.backgroundColor = GREEN;
+                }else if (WORD.includes(localWord[i])) {
+                    $gridItems[temp].style.backgroundColor = ORANGE;
+                }else{
+                    $gridItems[temp].style.backgroundColor = GRAY;
+                }
+            }
+
+            $wordInput.value = '';
+            localState++;
+
+            console.log($winner.classLists)
+
+            if (localWord == WORD) {
+                $winner.classList.remove('displayed')
+            }
+
+        }
+        else {
+            alert("No hi ha suficients lletres")
+        }
+    });
+
+
+
+</script>
