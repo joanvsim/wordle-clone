@@ -6,7 +6,6 @@
     <title>WORDLE - Joanvsim</title>
 </head>
 
-
 <style>
     :root {
         color-scheme: light dark;
@@ -175,10 +174,9 @@
 
 </html>
 
+<script type="module">
+    import { PARAULES } from './paraules.js';
 
-
-
-<script>
     const $wordInput = document.getElementById('wordInput');
     const $submitInput = document.getElementById('submitInput');
     const $gridItems = document.querySelectorAll('.grid-item');
@@ -192,12 +190,26 @@
 
     let localState = 0;
 
-    const WORD = 'SALSA';
+    // Obtenir el dia actual
+    const avui = new Date().getDate();
+
+    // Obtenir el valor actual del comptador del localStorage
+    let comptador = localStorage.getItem('comptador') || 0;
+
+    // Si és un nou dia, incrementa el comptador i desa el valor actualitzat al localStorage
+    if (localStorage.getItem('ultimDia') !== avui.toString()) {
+        comptador++;
+        localStorage.setItem('comptador', comptador);
+        localStorage.setItem('ultimDia', avui.toString());
+    }
+
+    const WORD = PARAULES[comptador].toUpperCase();
+
 
     $wordInput.addEventListener('input', () => {
         const inputWord = $wordInput.value.toUpperCase();
         for (let i = 0; i < 5; i++) {
-            temp = i + 5*localState;
+            let temp = i + 5*localState;
             $gridItems[temp].textContent = inputWord[i];
         }
     });
@@ -208,7 +220,7 @@
             let localWord = $wordInput.value.toUpperCase();
             
             for (let i = 0; i < WORDLENGTH; i++) {
-                temp = i + 5*localState;
+                let temp = i + 5*localState;
                 if (localWord[i] == WORD[i]) {
                     $gridItems[temp].style.backgroundColor = GREEN;
                 }else if (WORD.includes(localWord[i])) {
@@ -220,8 +232,6 @@
 
             $wordInput.value = '';
             localState++;
-
-            console.log($winner.classLists)
 
             if (localWord == WORD) {
                 $winner.classList.remove('displayed')
