@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,17 +21,19 @@
         background-color: var(--black);
         display: flex;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 40px;
         font-size: 20px;
     }
 
     main {
         max-width: 240px;
+        display: flex;
+        flex-direction: column;
     }
 
-    .title {
-        display: flex;
-        justify-content: center;
+    h1 {
+        font-size: 1.5em;
+        margin: 30px auto;
     }
 
     .inputGroup {
@@ -108,16 +110,12 @@
     .displayed {
         display: none;
     } 
-
 </style>
 
 <body>
     <main>
-        <section class="title">
-            <h1>WORDLE - CAT</h1>
-        </section>
+        <h1>WORDLE - CAT</h1>
         <section class="game">
-            
             <div class="grid-container row-1">
                 <div class="grid-item item-1"></div>
                 <div class="grid-item item-2"></div>
